@@ -35,7 +35,7 @@ if [ "$ACTION" == "upgrade" ]; then
     if [[ "$UPGRADE_VERSION" == "1.2.0.2"  &&  "$CURRENT_VERSION" == "1.2.0.1" ]]; then
     		echo "Creating dml directory."
     		mkdir dml
-		PGPASSWORD=$SU_USER_PWD psql -v ON_ERROR_STOP=1 --username=$SU_USER --host=$DB_SERVERIP --port=$DB_PORT --dbname=$SOURCE_DB1_NAME -a -b -f $SOURCE_DB1_SUPPORT_FILE
+		PGPASSWORD=$SU_USER_PWD psql -v ON_ERROR_STOP=1 --username=$SU_USER --host=$DB_SERVERIP --port=$DB_PORT --dbname=$DEFAULT_DB_NAME -a -b -f $UPGRADE_SCRIPT_FILE
 	fi
     PGPASSWORD=$SU_USER_PWD psql -v ON_ERROR_STOP=1 --username=$SU_USER --host=$DB_SERVERIP --port=$DB_PORT --dbname=$DEFAULT_DB_NAME -a -b -f $UPGRADE_SCRIPT_FILE
   else
