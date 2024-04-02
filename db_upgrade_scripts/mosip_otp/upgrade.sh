@@ -17,9 +17,9 @@ else
      echo `date "+%m/%d/%Y %H:%M:%S"` ": Property file not found, Pass property file name as argument."
 fi
 
-echo "Current version: $CURRENT_VERSION"
-echo "UPGRADE version: $UPGRADE_VERSION"
-echo "Action: $ACTION"
+echo "Current version: "$CURRENT_VERSION
+echo "UPGRADE version: "$UPGRADE_VERSION
+echo "Action: "$ACTION
 
 # Terminate existing connections
 echo "Terminating active connections"
@@ -42,7 +42,7 @@ if [ "$ACTION" == "upgrade" ]; then
     echo "Upgrade script not found, exiting."
     exit 1
   fi
-elif [ "$ACTION" == "rollback" ]; then
+elif [ $ACTION == "rollback" ]; then
   echo "Rolling back database for $CURRENT_VERSION to $UPGRADE_VERSION"
   REVOKE_SCRIPT_FILE="sql/${CURRENT_VERSION}_to_${UPGRADE_VERSION}_rollback.sql"
   if [ -f "$REVOKE_SCRIPT_FILE" ]; then
