@@ -17,9 +17,9 @@ else
      echo `date "+%m/%d/%Y %H:%M:%S"` ": Property file not found, Pass property file name as argument."
 fi
 
-echo "Current version: "$CURRENT_VERSION
-echo "UPGRADE version: "$UPGRADE_VERSION
-echo "Action: "$ACTION
+echo "Current version: $CURRENT_VERSION"
+echo "UPGRADE version: $UPGRADE_VERSION"
+echo "Action: $ACTION"
 
 # Terminate existing connections
 echo "Terminating active connections"
@@ -33,13 +33,13 @@ if [ "$ACTION" == "upgrade" ]; then
   if [ -f "$UPGRADE_SCRIPT_FILE" ]; then
     echo "Executing upgrade script $UPGRADE_SCRIPT_FILE"
     if [[ "$UPGRADE_VERSION" == "1.2.0.2"  &&  "$CURRENT_VERSION" == "1.2.0.1" ]]; then
-    		echo "Creating dml directory."
-    		mkdir dml
-		PGPASSWORD=$SU_USER_PWD psql -v ON_ERROR_STOP=1 --username=$SU_USER --host=$DB_SERVERIP --port=$DB_PORT --dbname=$SOURCE_DB1_NAME -a -b -f $SOURCE_DB1_SUPPORT_FILE
-	fi
+      echo "Creating dml directory."
+      mkdir dml
+      PGPASSWORD=$SU_USER_PWD psql -v ON_ERROR_STOP=1 --username=$SU_USER --host=$DB_SERVERIP --port=$DB_PORT --dbname=$SOURCE_DB1_NAME -a -b -f $SOURCE_DB1_SUPPORT_FILE
+    fi
     PGPASSWORD=$SU_USER_PWD psql -v ON_ERROR_STOP=1 --username=$SU_USER --host=$DB_SERVERIP --port=$DB_PORT --dbname=$DEFAULT_DB_NAME -a -b -f $UPGRADE_SCRIPT_FILE
   else
-    echo "Upgrade script not found, exiting."
+    echo "Upgrade script not found: $UPGRADE_SCRIPT_FILE. Exiting..."
     exit 1
   fi
 elif [ $ACTION == "rollback" ]; then
