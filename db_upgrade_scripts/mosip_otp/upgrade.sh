@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -e
-SOURCE_DB1_NAME=mosip_kernal
+SOURCE_DB1_NAME=mosip_kernel
 SOURCE_DB1_SUPPORT_FILE=sql/1.2.0.1_to_1.2.0.2_mosip_otp_support.sql
 properties_file="$1"
 echo `date "+%m/%d/%Y %H:%M:%S"` ": $properties_file"
