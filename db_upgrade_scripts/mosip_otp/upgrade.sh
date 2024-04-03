@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -e
-SOURCE_DB1_NAME=mosip_kernal
+SOURCE_DB1_NAME=mosip_kernel
 SOURCE_DB1_SUPPORT_FILE=sql/1.2.0.1_to_1.2.0.2_mosip_otp_support.sql
 properties_file="$1"
 echo `date "+%m/%d/%Y %H:%M:%S"` ": $properties_file"
@@ -33,16 +33,16 @@ if [ "$ACTION" == "upgrade" ]; then
   if [ -f "$UPGRADE_SCRIPT_FILE" ]; then
     echo "Executing upgrade script $UPGRADE_SCRIPT_FILE"
     if [[ "$UPGRADE_VERSION" == "1.2.0.2"  &&  "$CURRENT_VERSION" == "1.2.0.1" ]]; then
-    		echo "Creating dml directory."
-    		mkdir dml
-		PGPASSWORD=$SU_USER_PWD psql -v ON_ERROR_STOP=1 --username=$SU_USER --host=$DB_SERVERIP --port=$DB_PORT --dbname=$SOURCE_DB1_NAME -a -b -f $SOURCE_DB1_SUPPORT_FILE
-	fi
+      echo "Creating dml directory."
+      mkdir -p dml
+      PGPASSWORD=$SU_USER_PWD psql -v ON_ERROR_STOP=1 --username=$SU_USER --host=$DB_SERVERIP --port=$DB_PORT --dbname=$SOURCE_DB1_NAME -a -b -f $SOURCE_DB1_SUPPORT_FILE
+    fi
     PGPASSWORD=$SU_USER_PWD psql -v ON_ERROR_STOP=1 --username=$SU_USER --host=$DB_SERVERIP --port=$DB_PORT --dbname=$DEFAULT_DB_NAME -a -b -f $UPGRADE_SCRIPT_FILE
   else
-    echo "Upgrade script not found, exiting."
+    echo "Upgrade script not found: $UPGRADE_SCRIPT_FILE. Exiting..."
     exit 1
   fi
-elif [ "$ACTION" == "rollback" ]; then
+elif [ $ACTION == "rollback" ]; then
   echo "Rolling back database for $CURRENT_VERSION to $UPGRADE_VERSION"
   REVOKE_SCRIPT_FILE="sql/${CURRENT_VERSION}_to_${UPGRADE_VERSION}_rollback.sql"
   if [ -f "$REVOKE_SCRIPT_FILE" ]; then
